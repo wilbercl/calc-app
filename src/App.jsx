@@ -2,7 +2,7 @@
 
 //importacion
 import React, {useState} from 'react'
-
+import words from 'lodash.words'
 import Functions from "./components/Functions";
 import MathOperations from "./components/MathOperations"
 import Numbers from "./components/Numbers";
@@ -13,6 +13,8 @@ import "./App.css";
 const App = () =>{
     const [stack, setStack] = useState("")
 
+    const items = words(stack, /[^-^+^*^/]+/g)// devuelve un array de los numeros
+
     const clickHandler = (text) => {
         console.log("Button.clickHandler ",text)
         setStack(`${stack}${text}`)
@@ -21,7 +23,7 @@ const App = () =>{
     console.log("Renderizacion App")
     return (
     <main className='react-calculator'>
-        <Result value = {stack}/>
+        <Result value = {items.length >0 ? items[items.length-1] : 0}/>
         <Numbers onClickNumber={clickHandler}/>
         <Functions 
             onContentClear={() =>{
