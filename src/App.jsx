@@ -12,9 +12,9 @@ import "./App.css";
 //generacion de la funcion
 const App = () =>{
     const [stack, setStack] = useState("")
-
     const items = words(stack, /[^-^+^*^/]+/g)// devuelve un array de los numeros
-
+    const neg = items.length===1 && Math.sign(parseInt(stack)) < 0 ? true : false //para saber si el resultado es negativo
+    
     const clickHandler = (text) => {
         console.log("Button.clickHandler ",text)
         setStack(`${stack}${text}`)
@@ -23,7 +23,7 @@ const App = () =>{
     console.log("Renderizacion App")
     return (
     <main className='react-calculator'>
-        <Result value = {items.length >0 ? items[items.length-1] : 0}/>
+        <Result value = {items.length >0 ? neg ? `${items[items.length-1]}-` : items[items.length-1] : "0"}/>
         <Numbers onClickNumber={clickHandler}/>
         <Functions 
             onContentClear={() =>{
