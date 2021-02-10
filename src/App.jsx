@@ -1,3 +1,5 @@
+/*eslint no-eval: 0*/  // manera de desactivar el warning de eval.
+
 //importacion
 import React, {useState} from 'react'
 
@@ -13,7 +15,7 @@ const App = () =>{
 
     const clickHandler = (text) => {
         console.log("Button.clickHandler ",text)
-        setStack(text)
+        setStack(`${stack}${text}`)
     }
 
     console.log("Renderizacion App")
@@ -21,10 +23,25 @@ const App = () =>{
     <main className='react-calculator'>
         <Result value = {stack}/>
         <Numbers onClickNumber={clickHandler}/>
-        <Functions onContentClear={() =>{console.log("Clear")}}
-                   onDelete={() =>{console.log("Delete")}}/>
-        <MathOperations onClickOperation={operation => { console.log("Operation ", operation)}}
-                        onClickEqual={equal => {console.log("Equal ", equal)}}/>
+        <Functions 
+            onContentClear={() =>{
+                console.log("Clear")
+                setStack("")}}
+            onDelete={() =>{
+                if(stack.length >0){
+                    console.log("Delete")
+                    const newStack = stack.substring(0, stack.length-1)
+                    setStack(newStack)
+                }
+                }}/>
+        <MathOperations 
+            onClickOperation={operation => { 
+                console.log("Operation ", operation)
+                setStack(`${stack}${operation}`)}}
+            onClickEqual={equal => {
+                console.log("Equal ", equal)
+                setStack(eval(stack).toString())
+                }}/>
     </main>)
 }
 
